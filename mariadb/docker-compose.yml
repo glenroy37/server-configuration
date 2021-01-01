@@ -1,0 +1,17 @@
+version: '2.4'
+services:
+  mariadb:
+    image: mariadb:10.5.8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    networks:
+      - mariadb_net
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+networks:
+  mariadb_net:
+    name: mariadb_net
+    driver: bridge
+    

@@ -1,0 +1,6 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Restart starbound
+    shell: "cd /dc/starbound && docker-compose up -d"

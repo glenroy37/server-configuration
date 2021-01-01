@@ -1,0 +1,51 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check dc directory
+    stat:
+     path: /dc/minecraft
+    register: minecraft_dc_dir_stat
+
+  - name: Create minecraft dc directory
+    file:
+     path: /dc/minecraft
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: minecraft_dc_dir_stat.islnk is not defined
+
+  - name: Copy server.jar
+    copy:
+      src: server.jar
+      dest: /dc/minecraft/
+
+  - name: Copy properties template
+    copy:
+      src: server.template.properties
+      dest: /dc/minecraft/
+
+  - name: Copy EULA
+    copy:
+      src: eula.txt
+      dest: /dc/minecraft/
+  
+  - name: Copy docker-entrypoint
+    copy:
+      src: docker-entrypoint.sh
+      dest: /dc/minecraft/
+
+  - name: Copy Dockerfile
+    copy:
+      src: Dockerfile
+      dest: /dc/minecraft/
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/minecraft/
+
+  - name: Start minecraft
+    shell: "cd /dc/minecraft && docker-compose up -d"
+  

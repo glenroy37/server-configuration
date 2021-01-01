@@ -1,0 +1,24 @@
+---
+- name: Update nginx configs
+  hosts: teier.eu
+  gather_facts: yes
+
+  tasks:
+  - name: Stop Nginx for configuration
+    service: name=nginx state=stopped
+
+  - name: Remove nginx site config
+    shell: "rm -f /etc/nginx/sites-enabled/*"
+
+  - name: Install nginx server config
+    copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+
+  - name: Install nginx site configs
+    copy:
+      src: sites/
+      dest: /etc/nginx/sites-enabled/
+
+  - name: Start nginx
+    service: name=nginx state=started

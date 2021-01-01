@@ -1,0 +1,8 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Start nextcloud
+    shell: "cd /dc/nextcloud && docker-compose up -d"
+    environment:
+      NEXTCLOUD_DB_PASSWORD: "{{ lookup('env', 'NEXTCLOUD_DB_PASSWORD') }}"

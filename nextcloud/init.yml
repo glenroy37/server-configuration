@@ -1,0 +1,52 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Install PyMySQL
+    shell: pip install PyMySQL
+    
+  - name: Create database for nextcloud
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
+      name: nextcloud
+      state: present
+    
+  - name: Create database user for nextcloud
+    community.mysql.mysql_user:
+      login_user: root
+      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
+      name: nextcloud
+      password: "{{ lookup('env', 'NEXTCLOUD_DB_PASSWORD') }}"
+      host: "%"
+      priv: 'nextcloud.*:ALL'
+      state: present
+
+  - name: Check dc directory
+    stat:
+     path: /dc/nextcloud
+    register: nextcloud_dc_dir_stat
+
+  - name: Create nextcloud dc directory
+    file:
+     path: /dc/nextcloud
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: nextcloud_dc_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/nextcloud
+
+  - name: Copy nginx conf
+    copy:
+      src: nginx.conf
+      dest: /dc/nextcloud
+
+  - name: Start nextcloud
+    shell: "cd /dc/nextcloud && docker-compose up -d"
+    environment:
+      NEXTCLOUD_DB_PASSWORD: "{{ lookup('env', 'NEXTCLOUD_DB_PASSWORD') }}"

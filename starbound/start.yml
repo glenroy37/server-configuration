@@ -1,0 +1,60 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check dc directory
+    stat:
+     path: /dc/starbound
+    register: starbound_dc_dir_stat
+
+  - name: Create starbound dc directory
+    file:
+     path: /dc/starbound
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: starbound_dc_dir_stat.islnk is not defined
+
+  - name: Check binaries directory
+    stat:
+     path: /dc/starbound/binaries
+    register: starbound_binaries_dir_stat
+
+  - name: Create starbound binaries directory
+    file:
+     path: /dc/starbound/binaries
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: starbound_binaries_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/starbound
+
+  - name: Copy Dockerfile
+    copy:
+      src: Dockerfile
+      dest: /dc/starbound
+
+  - name: Copy Docker entrypoint
+    copy:
+      src: docker-entrypoint.sh
+      dest: /dc/starbound
+
+  - name: Copy binaries
+    copy:
+      src: binaries/binaries.tar.gz
+      dest: /dc/starbound/binaries/binaries.tar.gz
+
+  - name: Extract binaries
+    shell: "cd /dc/starbound/binaries && tar -xzf binaries.tar.gz"
+  
+  - name: Delete binaries archive
+    shell: "rm /dc/starbound/binaries/binaries.tar.gz"
+
+  - name: Start starbound
+    shell: "cd /dc/starbound && docker-compose up -d"

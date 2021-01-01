@@ -1,0 +1,4 @@
+.env
+minecraft/server.jar
+starbound/binaries
+!starbound/binaries/.gitkeep

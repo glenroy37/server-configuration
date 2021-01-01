@@ -1,0 +1,57 @@
+---
+- name: Configure UFW
+  hosts: teier.eu
+  gather_facts: yes
+  
+  tasks:
+  - name: Install ufw
+    apt: name=ufw state=latest
+
+  - name: Set logging
+    community.general.ufw:
+      logging: 'on'
+
+  - name: Allow SSH connections
+    community.general.ufw:
+      rule: allow
+      port: '4711'
+      proto: tcp
+    
+  - name: Allow web server access
+    community.general.ufw:
+      rule: allow
+      port: '443'
+      proto: tcp
+  
+  - name: Allow web server access
+    community.general.ufw:
+      rule: allow
+      port: '80'
+      proto: tcp
+
+  - name: Allow Minecraft
+    community.general.ufw:
+      rule: allow
+      port: '25565'
+      proto: tcp
+    
+  - name: Allow Starbound
+    community.general.ufw:
+      rule: allow
+      port: '21025'
+      proto: tcp
+  
+  - name: Allow all access from RFC1918 networks to this host
+    community.general.ufw:
+      rule: allow
+      src: '{{ item }}'
+    loop:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+
+  - name: Deny everything else and enable UFW
+    community.general.ufw:
+      state: enabled
+      policy: deny
+

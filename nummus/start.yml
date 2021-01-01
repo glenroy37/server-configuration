@@ -1,0 +1,8 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Start Nummus
+    shell: "cd /dc/nummus && docker-compose up -d"
+    environment:
+      NUMMUS_DB_PASSWORD: "{{ lookup('env', 'NUMMUS_DB_PASSWORD') }}"

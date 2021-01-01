@@ -1,0 +1,21 @@
+version: '2.4'
+services:
+  nummus:
+    image: glenroy37/nummus:0.1-alpha
+    environment:
+      DB_HOST: mariadb
+      DB_USER: nummus
+      DB_PASSWORD: ${NUMMUS_DB_PASSWORD}
+      DB_NAME: nummus
+      DETAILED_ERRORS: "false"
+      LOCALE: de-AT
+      USER_REGISTRATION_ENABLED: "false"
+    networks:
+      - mariadb_net
+    ports:
+      - 8082:80
+networks:
+  mariadb_net:
+    name: "mariadb_net"
+    external: true
+    

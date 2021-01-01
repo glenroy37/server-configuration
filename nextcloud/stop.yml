@@ -1,0 +1,7 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  tasks:
+  - name: Stop nextcloud
+    shell: "cd /dc/nextcloud && docker-compose stop"

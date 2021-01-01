@@ -1,0 +1,27 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check dc directory
+    stat:
+     path: /dc/mariadb
+    register: mariadb_dc_dir_stat
+
+  - name: Create mariadb dc directory
+    file:
+     path: /dc/mariadb
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: mariadb_dc_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/mariadb
+
+  - name: Start mariadb
+    shell: "cd /dc/mariadb && docker-compose up -d"
+    environment:
+      MARIADB_ROOT_PASSWORD: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"

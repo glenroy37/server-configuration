@@ -1,0 +1,21 @@
+version: '2.4'
+services:
+  minecraft:
+    build:
+      context: .
+    volumes:
+      - /var/minecraft/world:/minecraft/world
+      - /var/minecraft/ops.json:/minecraft/ops.json
+      - /var/minecraft/whitelist.json:/minecraft/whitelist.json
+      - /var/minecraft/banned-players.json:/minecraft/banned-player.json
+      - /var/minecraft/banned-ips.json:/minecraft/banned-ips.json
+    environment:
+      PORT: "25565"
+      ENABLE_COMMAND_BLOCK: "true"
+      MOTD: "Teiercloud Minecraft Server"
+      ENABLE_PVP: "true"
+      DIFFICULTY: "easy"
+      MAX_PLAYERS: "20"
+      ENABLED_WHITELIST: "true"
+    ports:
+      - 25565:25565

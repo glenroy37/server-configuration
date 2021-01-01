@@ -1,0 +1,23 @@
+---
+- name: Update Server and install docker
+  hosts: teier.eu
+  gather_facts: yes
+  tasks:
+  - name: Upgrade system
+    apt: upgrade=dist update_cache=yes
+  - name: Install Docker
+    apt: name=docker state=latest
+  - name: Install Docker Compose
+    apt: name=docker-compose state=latest
+  - name: Install Pip
+    apt: name=python-pip state=latest
+  - name: Install Docker Py
+    shell: pip install docker
+  - name: Enabled Docker Service
+    service:
+      name: docker
+      enabled:  yes
+  - name: Start Docker
+    service:
+      name: docker
+      state: started

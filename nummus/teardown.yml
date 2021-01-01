@@ -1,0 +1,7 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  tasks:
+  - name: Start Nummus
+    shell: "cd /dc/nummus && docker-compose down"

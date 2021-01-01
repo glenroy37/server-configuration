@@ -1,0 +1,47 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Install PyMySQL
+    shell: pip install PyMySQL
+
+  - name: Create database for Nummus
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
+      name: nummus
+      state: present
+
+  - name: Create database user for Nummus
+    community.mysql.mysql_user:
+      login_user: root
+      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
+      host: "%"
+      name: "nummus"
+      password: "{{ lookup('env', 'NUMMUS_DB_PASSWORD') }}"
+      priv: 'nummus.*:ALL'
+      state: present
+  
+  - name: Check dc directory
+    stat:
+     path: /dc/nummus
+    register: nummus_dc_dir_stat
+
+  - name: Create nummus dc directory
+    file:
+     path: /dc/nummus
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: nummus_dc_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/nummus
+
+  - name: Start nummus
+    shell: "cd /dc/nummus && docker-compose up -d"
+    environment:
+      NUMMUS_DB_PASSWORD: "{{ lookup('env', 'NUMMUS_DB_PASSWORD') }}"
