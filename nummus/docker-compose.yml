@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   nummus:
-    image: glenroy37/nummus:0.1-alpha
+    image: glenroy37/nummus:0.1.1-alpha
     environment:
       DB_HOST: mariadb
       DB_USER: nummus

@@ -1,4 +1,6 @@
 .env
 minecraft/server.jar
 starbound/binaries
+synapse/config/homeserver.yaml
+synapse/config/matrix-signing.key
 !starbound/binaries/.gitkeep

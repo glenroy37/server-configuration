@@ -16,3 +16,9 @@ To use the minecraft server, just copy the `server.jar` from `minecraft.net` to 
 ## Starbound
 My Starbound container only works with the **GOG version!**
 After installing Starboud on your gaming machine, archive all files from `~/GOG Games/Starbound/game/` into `starbound/binaries/binaries.tar.gz` and then run `ansible-playbook starbound/start.yml`
+
+## Matrix Synapse
+Before using Synapse you have to copy the file synapse/homserver.template.yaml to `synapse/config/homserver.yaml` and insert all missing values (like Shared registartion key)
+Secondly you have to generate the signing key by running the `generate-signing-key.py` script and placing it in `synapse/config/matrix-signing.key`. Please not that signedjson python module has to be installed.
+Thanks to Abel Luck for putting that script on GitHub Gist: [https://gist.github.com/abeluck/bb7b28fa75872212839e6fb3f07000d3]()
+After that you can just start Synapse by `ansible-playbook starbound/start.yml`

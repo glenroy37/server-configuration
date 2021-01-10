@@ -1,0 +1,86 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Install curl for healthcheck
+    apt: name=curl state=latest
+
+  - name: Check dc directory
+    stat:
+      path: /dc/synapse
+    register: synapse_dc_dir_stat
+
+  - name: Create synapse dc directory
+    file:
+      path: /dc/synapse
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: synapse_dc_dir_stat.islnk is not defined
+
+  - name: Check data directory
+    stat:
+      path: /var/synapse
+    register: synapse_data_dir_stat
+
+  - name: Create synapse data directory
+    file:
+      path: /var/synapse
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: synapse_data_dir_stat.islnk is not defined
+
+  - name: Check uploads directory
+    stat:
+      path: /var/synapse/uploads
+    register: synapse_upload_dir_stat
+
+  - name: Create synapse upload directory
+    file:
+      path: /var/synapse/uploads
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: synapse_upload_dir_stat.islnk is not defined
+
+  - name: Check media directory
+    stat:
+      path: /var/synapse/media
+    register: synapse_media_dir_stat
+
+  - name: Create synapse media directory
+    file:
+      path: /var/synapse/media
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: synapse_media_dir_stat.islnk is not defined
+
+  - name: Copy config
+    copy:
+      src: config/homeserver.yaml
+      dest: /var/synapse/homeserver.yaml
+
+  - name: Copy Log config
+    copy:
+      src: config/log.yaml
+      dest: /var/synapse/log.yaml
+
+  - name: Copy signing key
+    copy:
+      src: config/matrix-signing.key
+      dest: /var/synapse/matrix-signing.key
+
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/synapse
+
+  - name: Start Synapse
+    shell: "cd /dc/synapse && docker-compose up -d"

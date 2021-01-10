@@ -1,0 +1,112 @@
+---
+## Server ##
+server_name: "INSERT DOMAIN HERE"
+pid_file: /homeserver.pid
+web_client: False
+soft_file_limit: 0
+
+## Ports ##
+listeners:
+  - port: 8008
+    tls: false
+    bind_addresses: ['::']
+    type: http
+    x_forwarded: false
+
+    resources:
+      - names: [client]
+        compress: true
+      - names: [federation]
+        compress: false
+
+## Database ##
+database:
+  name: "sqlite3"
+  args:
+    database: "/data/homeserver.db"
+
+## Performance ##
+event_cache_size: "10K"
+
+## Ratelimiting ##
+rc_messages_per_second: 0.2
+rc_message_burst_count: 10.0
+federation_rc_window_size: 1000
+federation_rc_sleep_limit: 10
+federation_rc_sleep_delay: 500
+federation_rc_reject_limit: 50
+federation_rc_concurrent: 3
+
+## Files ##
+media_store_path: "/data/media"
+uploads_path: "/data/uploads"
+max_upload_size: "50M"
+max_image_pixels: "32M"
+dynamic_thumbnails: false
+
+# List of thumbnail to precalculate when an image is uploaded.
+thumbnail_sizes:
+- width: 96
+  height: 96
+  method: crop
+- width: 320
+  height: 240
+  method: scale
+- width: 800
+  height: 600
+  method: scale
+
+url_preview_enabled: False
+max_spider_size: "10M"
+
+## Turn ##
+enable_registration: False
+registration_shared_secret: "INSERT KEY HERE"
+bcrypt_rounds: 12
+allow_guest_access: False
+enable_group_creation: true
+
+# The list of identity servers trusted to verify third party
+# identifiers by this server.
+#
+# Also defines the ID server which will be called when an account is
+# deactivated (one will be picked arbitrarily).
+trusted_third_party_id_servers:
+    - matrix.org
+    - vector.im
+
+## Metrics ###
+enable_metrics: True
+report_stats: True
+
+## API Configuration ##
+
+room_invite_state_types:
+    - "m.room.join_rules"
+    - "m.room.canonical_alias"
+    - "m.room.avatar"
+    - "m.room.name"
+
+app_service_config_files: []
+
+macaroon_secret_key: "INSERT KEY HERE"
+expire_access_token: False
+
+## Signing Keys ##
+
+signing_key_path: "/data/matrix-signing.key"
+old_signing_keys: {}
+key_refresh_interval: "1d" # 1 Day.
+
+# The trusted servers to download signing keys from.
+
+suppress_key_server_warning: true
+perspectives:
+  servers:
+    "matrix.org":
+      verify_keys:
+        "ed25519:auto":
+          key: "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw"
+
+  password_config:
+    enabled: true

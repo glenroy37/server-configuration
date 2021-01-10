@@ -1,0 +1,7 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  tasks:
+  - name: Teardown Synapse
+    shell: "cd /dc/synapse && docker-compose down"

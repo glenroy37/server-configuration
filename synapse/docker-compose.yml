@@ -1,0 +1,16 @@
+version: '2.4'
+services:
+  synapse:
+    image: matrixdotorg/synapse:latest
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-fSs", "http://localhost:8008/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    ports:
+      - 8008:8008
+    environment:
+      SYNAPSE_SERVER_NAME: matrix.teier.eu
+    volumes:
+      - /var/synapse:/data

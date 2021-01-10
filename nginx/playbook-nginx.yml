@@ -20,7 +20,7 @@
     shell: "rm -f /etc/nginx/sites-enabled/*"
 
   - name: Get Certificate
-    shell: certbot certonly --standalone --preferred-challenges http -m mathias.teier@icloud.com --agree-tos -n -d teier.eu -d cloud.teier.eu -d nummus.teier.eu -d www.teier.eu
+    shell: certbot certonly --standalone --preferred-challenges http -m mathias.teier@icloud.com --agree-tos -n -d teier.eu -d cloud.teier.eu -d nummus.teier.eu -d www.teier.eu -d collabora.teier.eu -d matrix.teier.eu
 
   - name: Install nginx server config
     copy:

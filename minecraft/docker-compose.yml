@@ -3,6 +3,7 @@ services:
   minecraft:
     build:
       context: .
+    restart: always
     volumes:
       - /var/minecraft/world:/minecraft/world
       - /var/minecraft/ops.json:/minecraft/ops.json

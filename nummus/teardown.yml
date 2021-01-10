@@ -3,5 +3,5 @@
   gather_facts: no
   tasks:
   tasks:
-  - name: Start Nummus
+  - name: Teardown Nummus
     shell: "cd /dc/nummus && docker-compose down"
