@@ -46,6 +46,13 @@
       rule: allow
       port: '8448'
       proto: tcp
+
+  - name: Allow SMTP Outgoing
+    community.general.ufw:
+      rule: allow
+      direction: out
+      port: '587'
+      proto: tcp
   
   - name: Allow all access from RFC1918 networks to this host
     community.general.ufw:

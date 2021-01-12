@@ -9,8 +9,17 @@ services:
       timeout: 10s
       retries: 3
     ports:
-      - 8008:8008
+    - 8008:8008
     environment:
       SYNAPSE_SERVER_NAME: matrix.teier.eu
     volumes:
-      - /var/synapse:/data
+    - /var/synapse:/data
+    - /var/mautrix-telegram:/mautrix-telegram
+    network:
+    - matrix_net
+
+networks:
+  matrix_net:
+    name: matrix_net
+    driver: bridge
+  

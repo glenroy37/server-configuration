@@ -3,4 +3,5 @@ minecraft/server.jar
 starbound/binaries
 synapse/config/homeserver.yaml
 synapse/config/matrix-signing.key
+mautrix-telegram/config/config.yaml
 !starbound/binaries/.gitkeep

@@ -1,0 +1,44 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check dc directory
+    stat:
+      path: /dc/mautrix-telegram
+    register: mautrixtelegram_dc_dir_stat
+
+  - name: Create mautrix-telegram dc directory
+    file:
+      path: /dc/mautrix-telegram
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: mautrixtelegram_dc_dir_stat.islnk is not defined
+
+  - name: Check data directory
+    stat:
+      path: /var/mautrix-telegram
+    register: mautrixtelegram_data_dir_stat
+
+  - name: Create mautrix-telegram data directory
+    file:
+      path: /var/mautrix-telegram
+      state: directory
+      mode: 0777
+      group: root
+      owner: root
+    when: mautrixtelegram_data_dir_stat.islnk is not defined
+
+  - name: Copy config
+    copy:
+      src: config/config.yaml
+      dest: /var/mautrix-telegram/config.yaml
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/mautrix-telegram
+
+  - name: Start Mautrix Telegram
+    shell: "cd /dc/mautrix-telegram && docker-compose up"

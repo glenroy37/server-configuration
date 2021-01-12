@@ -1,0 +1,16 @@
+version: '2.4'
+services:
+  mautrix-telegram:
+    image: dock.mau.dev/tulir/mautrix-telegram:latest
+    restart: unless-stopped
+    volumes:
+    - /var/mautrix-telegram:/data
+    networks:
+    - matrix_net
+
+networks:
+  matrix_net:
+    name: matrix_net
+    driver: bridge
+  
+    

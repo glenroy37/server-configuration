@@ -1,0 +1,10 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Delete config
+    copy:
+      src: config/config.yaml
+      dest: /var/mautrix-telegram/config.yaml
+  - name: Teardown Mautrix Telegram
+    shell: "cd /dc/mautrix-telegram && docker-compose down"
