@@ -1,0 +1,6 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Teardown element
+    shell: "cd /dc/element && docker-compose down"
