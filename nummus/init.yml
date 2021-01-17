@@ -2,26 +2,23 @@
 - hosts: teier.eu
   gather_facts: no
   tasks:
-  - name: Install PyMySQL
-    shell: pip install PyMySQL
-
   - name: Create database for Nummus
-    community.mysql.mysql_db:
+    community.postgresql.postgresql_db
       login_user: root
-      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
+      login_password: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
       name: nummus
       state: present
 
   - name: Create database user for Nummus
-    community.mysql.mysql_user:
-      login_user: root
-      login_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') }}"
-      host: "%"
+    community.postgresql.postgresql_user:
+      login_user: postgres
+      login_password: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
       name: "nummus"
+      db: nummus
       password: "{{ lookup('env', 'NUMMUS_DB_PASSWORD') }}"
-      priv: 'nummus.*:ALL'
+      priv: 'ALL'
       state: present
-  
+
   - name: Check dc directory
     stat:
      path: /dc/nummus

@@ -1,0 +1,17 @@
+version: '2.4'
+services:
+  postgres:
+    image: postgres:13.1-alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - postgres_net
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+networks:
+  mariadb_net:
+    name: postgres_net
+    driver: bridge

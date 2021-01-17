@@ -1,0 +1,25 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check mautrix-signal directory
+    stat:
+     path: /dc/mautrix-signal
+    register: mautrix-signal_dc_dir_stat
+
+  - name: Create mautrix-signal dc directory
+    file:
+     path: /dc/mautrix-signal
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: mautrix-signal_dc_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/mautrix-signal
+
+  - name: Start mautrix-signal
+    shell: "cd /dc/mautrix-signal && docker-compose up -d"

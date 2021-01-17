@@ -1,0 +1,6 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Stop Mariadb
+    shell: "cd /dc/mariadb && docker-compose stop"

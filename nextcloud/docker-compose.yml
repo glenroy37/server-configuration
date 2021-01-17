@@ -3,10 +3,10 @@ services:
   nextcloud:
     image: nextcloud:fpm
     environment:
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      MYSQL_HOST: mariadb
-      MYSQL_PASSWORD: ${NEXTCLOUD_DB_PASSWORD}
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextcloud
+      POSTGRES_HOST: mariadb
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
       TRUSTED_PROXIES: "cloud.teier.eu 138.201.74.231 172.0.0.1/8"
       APACHE_DISABLE_REWRITE_IP: "1"
       OVERWRITEHOST: "cloud.teier.eu"
@@ -14,7 +14,7 @@ services:
       OVERWRITEWEBROOT: "/"
       OVERWRITECONADDR: "138.201.74.231"
     networks:
-      - "mariadb_net"
+      - "postgres_net"
       - "nextcloud_net"
     volumes:
       - /var/nextcloud:/var/www/html
@@ -34,6 +34,5 @@ networks:
     name: "nextcloud_net"
     driver: bridge
   mariadb_net:
-    name: "mariadb_net"
+    name: "postgres_net"
     external: true
-    

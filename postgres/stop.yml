@@ -1,0 +1,6 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Stop Postgres
+    shell: "cd /dc/postgres && docker-compose stop"

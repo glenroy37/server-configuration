@@ -1,9 +1,9 @@
 version: '2.4'
 services:
   nummus:
-    image: glenroy37/nummus:0.1.1-alpha
+    image: glenroy37/nummus:0.1.2-alpha
     environment:
-      DB_HOST: mariadb
+      DB_HOST: postgres
       DB_USER: nummus
       DB_PASSWORD: ${NUMMUS_DB_PASSWORD}
       DB_NAME: nummus
@@ -16,6 +16,5 @@ services:
       - 8082:80
 networks:
   mariadb_net:
-    name: "mariadb_net"
+    name: "postgres_net"
     external: true
-    
