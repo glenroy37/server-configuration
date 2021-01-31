@@ -30,10 +30,18 @@
       owner: root
     when: mautrixtelegram_data_dir_stat.islnk is not defined
 
+  - name: Check if config exists
+    fstat:
+      path: /var/mautrix-telegram/config.yaml
+    register: config_stat
+
+  #IMPORTANT: Mautrix-Telegram modifies config on first start to include the regisration keys
+  #for the Matrix home serer. Therefore NEVER overwrite an existing config, but edit it manually
   - name: Copy config
     copy:
       src: config/config.yaml
       dest: /var/mautrix-telegram/config.yaml
+    when: config_stat.islnk is not defined
 
   - name: Copy compose file
     copy:
