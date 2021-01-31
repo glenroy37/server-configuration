@@ -1,0 +1,15 @@
+version: '2.4'
+services:
+  mautrix-whatsapp:
+    image: dock.mau.dev/tulir/mautrix-whatsapp:latest
+    restart: unless-stopped
+    volumes:
+    - /var/mautrix-whatsapp:/data
+    networks:
+    - matrix_net
+
+networks:
+  matrix_net:
+    name: matrix_net
+    driver: bridge
+  

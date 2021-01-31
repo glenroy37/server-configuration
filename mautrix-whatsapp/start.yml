@@ -1,0 +1,25 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Check mautrix-whatsapp directory
+    stat:
+     path: /dc/mautrix-whatsapp
+    register: mautrixwhatsapp_dc_dir_stat
+
+  - name: Create mautrix-whatsapp dc directory
+    file:
+     path: /dc/mautrix-whatsapp
+     state: directory
+     mode: 0755
+     group: root
+     owner: root
+    when: mautrixwhatsapp_dc_dir_stat.islnk is not defined
+
+  - name: Copy compose file
+    copy:
+      src: docker-compose.yml
+      dest: /dc/mautrix-whatsapp
+
+  - name: Start mautrix-whatsapp
+    shell: "cd /dc/mautrix-whatsapp && docker-compose up -d"

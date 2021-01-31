@@ -7,7 +7,7 @@
      path: /dc/postgres
     register: postgres_dc_dir_stat
 
-  - name: Create mariadb dc directory
+  - name: Create postgres dc directory
     file:
      path: /dc/postgres
      state: directory
@@ -22,6 +22,6 @@
       dest: /dc/postgres
 
   - name: Start postgres
-    shell: "cd /dc/mariadb && docker-compose up -d"
+    shell: "cd /dc/postgres && docker-compose up -d"
     environment:
       POSTGRES_PASSWORD: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"

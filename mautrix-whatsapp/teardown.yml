@@ -1,0 +1,6 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Teardown mautrix-whatsapp
+    shell: "cd /dc/mautrix-whatsapp && docker-compose down"

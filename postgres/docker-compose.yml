@@ -12,6 +12,6 @@ services:
     ports:
       - 5432:5432
 networks:
-  mariadb_net:
+  postgres_net:
     name: postgres_net
     driver: bridge

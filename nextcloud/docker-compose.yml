@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: nextcloud
       POSTGRES_USER: nextcloud
-      POSTGRES_HOST: mariadb
+      POSTGRES_HOST: postgres
       POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
       TRUSTED_PROXIES: "cloud.teier.eu 138.201.74.231 172.0.0.1/8"
       APACHE_DISABLE_REWRITE_IP: "1"
@@ -33,6 +33,6 @@ networks:
   nextcloud_net:
     name: "nextcloud_net"
     driver: bridge
-  mariadb_net:
+  postgres_net:
     name: "postgres_net"
     external: true

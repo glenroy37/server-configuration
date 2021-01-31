@@ -1,0 +1,15 @@
+---
+- name: Update nginx configs
+  hosts: teier.eu
+  gather_facts: yes
+
+  tasks:
+  - name: Remove old website files
+    shell: "rm -rf /var/www/html/website/*"
+
+  - name: Copy website
+    copy:
+      src: html/
+      dest: /var/www/html/website/
+      owner: www-data
+      group: www-data

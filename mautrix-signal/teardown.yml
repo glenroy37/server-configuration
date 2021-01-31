@@ -2,5 +2,5 @@
 - hosts: teier.eu
   gather_facts: no
   tasks:
-  - name: Teardown mariadb
-    shell: "cd /dc/mariadb && docker-compose down"
+  - name: Teardown Mautrix Signal
+    shell: "cd /dc/mautrix-signal && docker-compose down"

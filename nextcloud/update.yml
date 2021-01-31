@@ -1,0 +1,10 @@
+---
+- hosts: teier.eu
+  gather_facts: no
+  tasks:
+  - name: Teardown nextcloud
+    shell: "cd /dc/nextcloud && docker-compose down"
+  - name: Update nextcloud
+    shell: "cd /dc/nextcloud && docker-compose pull"
+  - name: Start nextcloud
+    shell: "cd /dc/nextcloud && docker-compose up -d"

@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   synapse:
-    image: matrixdotorg/synapse:latest
+    image: matrixdotorg/synapse:v1.26.0-deb
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-fSs", "http://localhost:8008/health"]
@@ -9,17 +9,22 @@ services:
       timeout: 10s
       retries: 3
     ports:
-    - 8008:8008
+      - 8008:8008
     environment:
       SYNAPSE_SERVER_NAME: matrix.teier.eu
     volumes:
-    - /var/synapse:/data
-    - /var/mautrix-telegram:/mautrix-telegram
-    network:
-    - matrix_net
+      - /var/synapse:/data
+      - /var/mautrix-telegram:/mautrix-telegram
+      - /var/mautrix-signal:/mautrix-signal
+      - /var/mautrix-whatsapp:/mautrix-whatsapp
+    networks:
+      - matrix_net
+      - postgres_net
 
 networks:
-  matrix_net:
-    name: matrix_net
-    driver: bridge
-  
+    matrix_net:
+        name: matrix_net
+        driver: bridge
+    postgres_net:
+        name: postgres_net
+        external: true
